@@ -1,0 +1,7 @@
+name: dashboard
+runtime:
+  kind: javascript
+  entry: dashboard-worker.mjs
+scripts:
+  install: "pnpm install"
+  start: "node dashboard-worker.mjs"

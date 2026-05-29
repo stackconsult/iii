@@ -39,14 +39,12 @@ Use this for:
      - `balancedPath` default: `.switchboard/reviews/balanced_review.md`
      - If user explicitly requests different filenames, use those filenames for all subsequent steps.
    - Call `complete_workflow_phase(phase: 1, workflow: "challenge", artifacts: [{ path: ".switchboard", description: "Internal review scope established" }])`.
-   - **Log to iii**: `curl -s -X POST http://localhost:3111/switchboard/log -H "Content-Type: application/json" -d '{"event_type":"workflow:challenge:phase-complete","payload":{"phase":1}}'`
 
 2. **Dependency & Conflict Check**
    - MANDATORY: Read the code of any service, utility, or module being modified or worked around.
    - MANDATORY: Scan `.switchboard/plans/` or the current Kanban state to identify if this plan conflicts with, or relies on, other pending work.
    - Do not assume black-box behavior. Verify actual implementation before review.
    - Call `complete_workflow_phase(phase: 2, workflow: "challenge", artifacts: [{ path: ".switchboard", description: "Dependencies verified" }])`.
-   - **Log to iii**: `curl -s -X POST http://localhost:3111/switchboard/log -H "Content-Type: application/json" -d '{"event_type":"workflow:challenge:phase-complete","payload":{"phase":2}}'`
 
 3. **Execute Internal Review**
    - ⛔ Do NOT implement any findings. Update the Feature Plan only.
@@ -62,21 +60,18 @@ Use this for:
      - Action Plan
      - Dismissed Points
    - Call `complete_workflow_phase(phase: 3, workflow: "challenge", artifacts: [{ path: "<grumpyPath>", description: "Adversarial critique" }, { path: "<balancedPath>", description: "Balanced synthesis" }])`.
-   - **Log to iii**: `curl -s -X POST http://localhost:3111/switchboard/log -H "Content-Type: application/json" -d '{"event_type":"workflow:challenge:phase-complete","payload":{"phase":3}}'`
 
 4. **Present Findings**
    - Notify user with both artifact paths:
      - `grumpyPath`
      - `balancedPath`
    - Call `complete_workflow_phase(phase: 4, workflow: "challenge", artifacts: [{ path: ".switchboard/reviews", description: "Findings presented to user" }])`.
-   - **Log to iii**: `curl -s -X POST http://localhost:3111/switchboard/log -H "Content-Type: application/json" -d '{"event_type":"workflow:challenge:phase-complete","payload":{"phase":4}}'`
 
 5. **Complete + Integrate**
    - MANDATORY before calling `complete_workflow_phase`: update the original Feature Plan document with the Action Plan items from the balanced review.
      - Use `targetPlanFile` pinned in Step 1 as the absolute path to the Feature Plan.
      - Edit the Feature Plan to integrate the approved Action Plan items. ⚠️ **CRITICAL: Ensure you do NOT truncate, summarize, or delete the existing implementation steps, code blocks, or goal statements when editing.** This is a permitted write under the CRITICAL CONSTRAINTS block — it is orchestration, not implementation.
    - Call `complete_workflow_phase(phase: 5, workflow: "challenge", artifacts: [{ path: "<balancedPath>", description: "Final internal review output" }, { path: "<targetPlanFile>", description: "Feature Plan updated with review findings" }])`.
-   - **Log to iii**: `curl -s -X POST http://localhost:3111/switchboard/log -H "Content-Type: application/json" -d '{"event_type":"workflow:challenge:complete","payload":{"phase":5}}'`
    - **Kanban safety**: This workflow is advisory-only. Do NOT trigger, request, or imply Kanban column transitions from challenge completion.
 
 ## Final-Phase Recovery Rule

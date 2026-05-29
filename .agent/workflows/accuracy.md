@@ -22,7 +22,6 @@ description: Implement with high accuracy and self-review (optimized for per-pro
    - Read `.agent/rules/switchboard_modes.md` for the "Lead Engineer" persona.
    - **WHY**: Missing context causes mistakes. Mistakes cause rework. Rework costs extra prompts.
    - Call `complete_workflow_phase(phase: 1, workflow: "accuracy", notes: "Context gathered")`
-   - **Log to iii**: `curl -s -X POST http://localhost:3111/switchboard/log -H "Content-Type: application/json" -d '{"event_type":"workflow:accuracy:phase-complete","payload":{"phase":1}}'`
 
 3. **Thorough Plan**:
    - MUST create a detailed plan listing every change, which files are affected, and how to verify each.
@@ -57,7 +56,6 @@ description: Implement with high accuracy and self-review (optimized for per-pro
    - Review the complete diff for consistency.
    - Output: `**ACCURACY VERIFICATION COMPLETE**`
    - **Call `complete_workflow_phase(phase: 5, workflow: "accuracy")`** (Auto-stops workflow).
-   - **Log to iii**: `curl -s -X POST http://localhost:3111/switchboard/log -H "Content-Type: application/json" -d '{"event_type":"workflow:accuracy:complete","payload":{"phase":5}}'`
 
 ## Final-Phase Recovery Rule
 - Phase 5 is terminal for `accuracy`. Do NOT call phase 6.

@@ -62,5 +62,4 @@ Use this workflow to strengthen an existing feature plan in a single fluid pass.
 
 5. **Complete the workflow**
    - Call `complete_workflow_phase` with `workflow: "improve-plan"`, `phase: 1`, and the updated plan as the artifact.
-   - **Log to iii**: `curl -s -X POST http://localhost:3111/switchboard/log -H "Content-Type: application/json" -d '{"event_type":"workflow:improve-plan:complete","payload":{"phase":1}}'`
    - End by recommending whether the plan should go to the Coder agent or the Lead Coder.

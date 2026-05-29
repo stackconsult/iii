@@ -30,7 +30,6 @@ Allowed branch:
    - Complex = architectural (keep local)
    - MUST mark Routine tasks `[DELEGATED]` in task.md
    - Call `complete_workflow_phase(phase: 1, workflow: "handoff")`.
-   - **Log to iii**: `curl -s -X POST http://localhost:3111/switchboard/log -H "Content-Type: application/json" -d '{"event_type":"workflow:handoff:phase-complete","payload":{"phase":1}}'`
 
 3. **Prepare Delegation Payload**
    - Stage required artifacts in `.switchboard/handoff/`.
@@ -43,14 +42,12 @@ Allowed branch:
    - InboxWatcher will write an auto-delivery receipt on delivery (unless metadata.no_auto_ack=true).
    - Capture dispatch `id` and `createdAt`.
    - Call `complete_workflow_phase(phase: 2, workflow: "handoff", artifacts: [{ path: ".switchboard/handoff", description: "Delegation payload staged and dispatched" }])`.
-   - **Log to iii**: `curl -s -X POST http://localhost:3111/switchboard/log -H "Content-Type: application/json" -d '{"event_type":"workflow:handoff:phase-complete","payload":{"phase":2}}'`
 
 5. **Wait for User Confirmation + Merge**
    - After dispatch, STOP and ask the user to confirm when the remote worker has finished (for example: "Reply `done` when remote execution is complete.").
    - Do not rely on `submit_result`/`status_update` correlation.
    - On user confirmation, verify delegated changes and merge with local work.
    - Call `complete_workflow_phase(phase: 3, workflow: "handoff")`.
-   - **Log to iii**: `curl -s -X POST http://localhost:3111/switchboard/log -H "Content-Type: application/json" -d '{"event_type":"workflow:handoff:complete","payload":{"phase":3}}'`
 
 Notes:
 - ack_mode: minimal — the system auto-delivery receipt is accepted as 'started' evidence for the dispatch step. Final completion is confirmed by explicit user input ("done", "finished", etc.).

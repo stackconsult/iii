@@ -24,20 +24,17 @@ Allowed branch:
    - Complex = architectural (keep local)
    - MUST mark Routine tasks `[DELEGATED]` in task.md
    - Call `complete_workflow_phase(phase: 1, workflow: "handoff-chat")`.
-   - **Log to iii**: `curl -s -X POST http://localhost:3111/switchboard/log -H "Content-Type: application/json" -d '{"event_type":"workflow:handoff-chat:phase-complete","payload":{"phase":1}}'`
 
 3. **Prepare Clipboard Payload**
    - Create staged handoff artifact under `.switchboard/handoff/`.
    - Copy the payload using `handoff_clipboard(file: "<path>")`.
    - Tell user exactly which file was copied.
    - Call `complete_workflow_phase(phase: 2, workflow: "handoff-chat", artifacts: [{ path: ".switchboard/handoff", description: "Clipboard payload prepared" }])`.
-   - **Log to iii**: `curl -s -X POST http://localhost:3111/switchboard/log -H "Content-Type: application/json" -d '{"event_type":"workflow:handoff-chat:phase-complete","payload":{"phase":2}}'`
 
 4. **Wait for User Confirmation + Merge**
    - Wait for the user to confirm the pasted delegate has finished.
    - On confirmation, verify and merge changes locally.
    - Call `complete_workflow_phase(phase: 3, workflow: "handoff-chat")`.
-   - **Log to iii**: `curl -s -X POST http://localhost:3111/switchboard/log -H "Content-Type: application/json" -d '{"event_type":"workflow:handoff-chat:complete","payload":{"phase":3}}'`
 
 ## Final-Phase Recovery Rule
 - Phase 3 is terminal for `handoff-chat`. Do NOT call phase 4.

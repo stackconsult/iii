@@ -1,0 +1,7 @@
+name: switchboard-bridge
+runtime:
+  kind: javascript
+  entry: switchboard-bridge.mjs
+scripts:
+  install: "pnpm install"
+  start: "node switchboard-bridge.mjs"

@@ -15,20 +15,17 @@ This workflow is for one-shot implementation of large feature requests by the Le
    - **Direct Path**: If a [Feature Plan](file:///c:/Users/patvu/Documents/GitHub/switchboard/.switchboard/plans/features/) already exists and is approved, you may SKIP creating a new request file.
    - **Staging Path**: For complex tasks without a pre-existing plan, stage context to `.switchboard/handoff/lead_request.md`.
    - Call `complete_workflow_phase(phase: 1, workflow: "handoff-lead", artifacts: [{ path: ".switchboard/plans/features/feature_plan_...", description: "Approved Feature Plan for implementation" }])`.
-   - **Log to iii**: `curl -s -X POST http://localhost:3111/switchboard/log -H "Content-Type: application/json" -d '{"event_type":"workflow:handoff-lead:phase-complete","payload":{"phase":1}}'`
 
 2. **Dispatch to Lead Coder**
    - Call `send_message(action: "execute", payload)`.
    - **Payload format**: A single line only: `Please execute the plan at: [ABSOLUTE PATH]`. Do NOT include summaries or multi-line context.
    - Metadata MUST include `{ phase_gate: { enforce_persona: 'lead' } }` to ensure the Lead Coder persona is activated.
    - Call `complete_workflow_phase(phase: 2, workflow: "handoff-lead")`.
-   - **Log to iii**: `curl -s -X POST http://localhost:3111/switchboard/log -H "Content-Type: application/json" -d '{"event_type":"workflow:handoff-lead:phase-complete","payload":{"phase":2}}'`
 
 3. **Verification**
    - Wait for the Lead Coder to signal completion (user confirmation only — yield pattern; do NOT poll).
    - Verify the implementation against the staged requirements.
    - Call `complete_workflow_phase(phase: 3, workflow: "handoff-lead")`.
-   - **Log to iii**: `curl -s -X POST http://localhost:3111/switchboard/log -H "Content-Type: application/json" -d '{"event_type":"workflow:handoff-lead:complete","payload":{"phase":3}}'`
 
 ## Final-Phase Recovery Rule
 - Phase 3 is terminal for `handoff-lead`. Do NOT call phase 4.
