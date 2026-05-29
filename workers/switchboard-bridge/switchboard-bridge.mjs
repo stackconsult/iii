@@ -21,7 +21,7 @@ import { createRequire } from 'node:module'
 // ── Configuration ───────────────────────────────────────────────────────────
 
 const ENGINE_URL = process.env.III_ENGINE_URL || 'ws://localhost:49134'
-const SWITCHBOARD_DIR = process.env.SWITCHBOARD_DIR || './.switchboard'
+const SWITCHBOARD_DIR = process.env.SWITCHBOARD_DIR || '../../.switchboard'
 const BRIDGE_WORKER_NAME = process.env.III_WORKER_NAME || 'switchboard-bridge'
 
 // ── Helper: read Switchboard DB safely ──────────────────────────────────────
