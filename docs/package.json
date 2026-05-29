@@ -2,8 +2,8 @@
 	"name": "docs",
 	"private": true,
 	"scripts": {
-		"dev": "mint dev",
-		"build": "mint build"
+		"dev": "mintlify dev",
+		"build": "mintlify export"
 	},
 	"devDependencies": {
 		"prettier": "3.8.3"
