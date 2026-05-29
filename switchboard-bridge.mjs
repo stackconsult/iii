@@ -121,7 +121,8 @@ iii.registerFunction('switchboard::plans-files', async () => {
 })
 
 iii.registerFunction('switchboard::log', async (input) => {
-  const { event_type, payload, correlation_id, session_id } = input || {}
+  const body = input?.body || input || {}
+  const { event_type, payload, correlation_id, session_id } = body
   if (!event_type) return { body: { error: 'event_type required' } }
 
   // Also write to the local kanban activity_log if possible
